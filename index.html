@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>XI Science Result Analysis</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div>
+    <h1>XI Science Result Analysis</h1>
+    <p class="sub" id="meta"></p>
+  </div>
+  <div class="actions">
+    <button id="btnCsv">Export CSV</button>
+    <button id="btnPrint" class="ghost">Print</button>
+  </div>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button data-tab="dash" class="on">Dashboard</button>
+  <button data-tab="subjects">Subjects</button>
+  <button data-tab="merit">Merit list</button>
+  <button data-tab="students">Students</button>
+  <button data-tab="rules">Rules</button>
+</nav>
+
+<main>
+  <section id="dash" class="panel on">
+    <div class="cards" id="cards"></div>
+    <div class="grid2">
+      <div class="box"><h2>Result status</h2><div id="chartStatus"></div></div>
+      <div class="box"><h2>Class distribution <small>(passed students with percentage)</small></h2><div id="chartClass"></div></div>
+    </div>
+    <div class="box"><h2>Subject-wise pass percentage <small>(pass mark 35 out of 100)</small></h2><div id="chartSubj"></div></div>
+    <p class="note" id="denomNote"></p>
+  </section>
+
+  <section id="subjects" class="panel">
+    <div class="box">
+      <h2>Subject-wise analysis</h2>
+      <div class="scroll"><table id="subjTable"></table></div>
+      <p class="note">Scores are the "Avg. (/2)" column of the register, out of 100. Scored below 35 = below the subject pass mark before any grace marks.</p>
+    </div>
+    <div class="box">
+      <h2>Subject detail</h2>
+      <select id="subjPick"></select>
+      <div id="subjDetail"></div>
+    </div>
+  </section>
+
+  <section id="merit" class="panel">
+    <div class="box">
+      <h2>Merit list</h2>
+      <div class="filters">
+        <label>Subject
+          <select id="meritSubj"></select>
+        </label>
+        <label class="chk"><input type="checkbox" id="meritOnlyPass" checked> Only students with official result PASS</label>
+      </div>
+      <div class="scroll"><table id="meritTable"></table></div>
+      <p class="note">Equal scores share a rank; the next rank is skipped (1, 2, 2, 4).</p>
+    </div>
+  </section>
+
+  <section id="students" class="panel">
+    <div class="box">
+      <div class="filters">
+        <label>Search <input id="q" placeholder="Name or roll no."></label>
+        <label>Result
+          <select id="fStatus"><option value="">All</option><option>PASS</option><option>PROMOTED</option><option>FAIL</option></select>
+        </label>
+        <label>Class
+          <select id="fClass"><option value="">All</option></select>
+        </label>
+        <label>Subject below 35
+          <select id="fSubj"><option value="">Any</option></select>
+        </label>
+      </div>
+      <div class="scroll"><table id="stuTable"></table></div>
+      <p class="note" id="stuCount"></p>
+    </div>
+  </section>
+
+  <section id="rules" class="panel">
+    <div class="box">
+      <h2>How results are read</h2>
+      <ul class="rules">
+        <li><b>Official result</b> is the Remarks printed in the register (PASS / PROMOTED / FAIL). It is never recalculated.</li>
+        <li><b>Total and percentage</b> are out of 600: English, Urdu, Physics, Chemistry, Biology, Mathematics. Health &amp; Physical Education and Environment Studies carry grades only and are not in the 600.</li>
+        <li><b>Class</b> uses the percentage: 75 and above Distinction, 60 to 74.99 First Class, 35 to 59.99 Pass Class, below 35 Below threshold.</li>
+        <li>The register prints no percentage for PROMOTED students, so no class is shown for them.</li>
+        <li><b>Subject check</b> flags any subject with a score under 35. A student can be PROMOTED despite this because of grace marks given by the college.</li>
+        <li><b>AB</b> means absent in that component. It is shown as AB and never counted as zero in the detail view.</li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<div id="modal" class="modal" hidden>
+  <div class="sheet">
+    <button class="close" id="mClose" aria-label="Close">×</button>
+    <div id="mBody"></div>
+  </div>
+</div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
